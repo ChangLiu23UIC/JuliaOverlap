@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Overlap</title>
+    <style>
+      .text-box {
+        width: 100px;
+        height: 350px;
+        float: right;
+        background-color: lightgray;
+        padding: 20px;
+      }
+      .dot {
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+          display: inline-block;
+      }
+      .legend {
+          width: 200px;
+          height: 150px;
+          background-color: lightgray;
+          padding: 20px;
+      }
+      .domain-legend{
+          width: 100px;
+          height: 350px;
+          float: right;
+          background-color: lightgray;
+          padding: 20px;
+      }
+    </style>
+</head>
+<body>
+    Overlap
+</body>
+<br/>
+
+<body>
+<div class = "multiline">
+    {% for i in range(0, size) %}
+        <span style = "background-color:{{char_color[i]}}; word-wrap:break-word"> - </span>
+        {% if ptm_list[i] != 0 %}
+            <b><sup>{{ptm_list[i]}}</sup></b>
+        {% endif %}
+    {% endfor %}
+</div>
+</body>
+
+<div class = "legend">
+<body><span style = "background-color: red">Only the first</span></body>
+<br/>
+<body><span style = "background-color: yellow">Only the second</span></body>
+<br/>
+<body><span style = "background-color: lightblue">Only the third</span></body>
+<br/>
+<body><span style = "background-color: orange">First and Second Overlap</span></body>
+<br/>
+<body><span style = "background-color: violet">First and Third Overlap</span></body>
+<br/>
+<body><span style = "background-color: green">Second and Third Overlap</span></body>
+<br/>
+<body><span style = "background-color: gray">All Overlap</span></body>
+</div>
+
+<div class = "text-box">
+    <b>PTMs</b> <br/><br/>
+    {% for i in ptm_color%}
+    <span style = "background-color:rgb({{ptm_color[i][0]}},{{ptm_color[i][1]}},{{ptm_color[i][2]}});", class = "dot"> </span> <b>{{i}}</b>
+    <br/>
+    <br/>
+    {% endfor %}
+</div>
+
+<div class = "domain-legend">
+    <b> Domains </b><br/>
+    <br/>
+    <span style = "background: purple", class = "dot"></span><b> EDA </b><br/>
+    <br/>
+    <span style = "background: Brown", class = "dot"></span><b> EDB </b><br/>
+    <br/>
+</div>
+
+<br>
+<body>
+    {% set iterate = 0 %}
+    {% for i in range(0, size//70) %}
+        {% set iterate = iterate + 1 %}
+        {% for j in range(i*iterate*70, i*iterate*70 + 70) %}
+            {% if merged[j] == "white"%}
+            <span style = "background-color:{{merged[j]}}; word-wrap:break-word; font-family:'Lucida Console', monospace"> &nbsp </span>
+            {% set iterate = iterate + 1 %}
+            {% else %}
+            <span style = "background-color:{{merged[j]}}; word-wrap:break-word; font-family:'Lucida Console', monospace"> + </span>
+            {% set iterate = iterate + 1 %}
+            {% endif %}
+        {% endfor %}
+        <br/>
+        {% for j in range(i*iterate*70, i*iterate*70 + 70) %}
+            <span style = "background-color:{{char_color[j]}}; word-wrap:break-word; font-family:'Lucida Console', monospace">{{protein_string[j]}} </span>
+            {% set iterate = iterate + 1 %}
+        {% endfor %}
+        <br/>
+        {% for j in range(i*iterate*70, i*iterate*70 + 70) %}
+            {% if pep1[j] != "_" %}
+                {% if pep1[j] == "—" %}
+                    <span style = "background-color:green; word-wrap:break-word; font-family:'Lucida Console', monospace"> {{pep1[j]}} </span>
+                    {% set iterate = iterate + 1 %}
+                {% else %}
+                    <span style = "background-color:rgb({{color1[j][0]}},{{color1[j][1]}},{{color1[j][2]}}); word-wrap:break-word; font-family:'Lucida Console', monospace"> {{pep1[j]}} </span>
+                    {% set iterate = iterate + 1 %}
+                {% endif %}
+            {% else %}
+                <span style = "background-color:white; word-wrap:break-word; font-family:'Lucida Console', monospace"> {{pep1[j]}} </span>
+                {% set iterate = iterate + 1 %}
+            {% endif %}
+        {% endfor %}
+        <br/>
+        {% for j in range(i*iterate*70, i*iterate*70 + 70) %}
+            {% if pep2[j] != "_" %}
+                {% if pep2[j] == "—" %}
+                    <span style = "background-color:red; word-wrap:break-word; font-family:'Lucida Console', monospace"> {{pep2[j]}} </span>
+                    {% set iterate = iterate + 1 %}
+                {% else %}
+                    <span style = "background-color:rgb({{color2[j][0]}},{{color2[j][1]}},{{color2[j][2]}}); word-wrap:break-word; font-family:'Lucida Console', monospace"> {{pep2[j]}} </span>
+                    {% set iterate = iterate + 1 %}
+                {% endif %}
+            {% else %}
+                <span style = "background-color:white; word-wrap:break-word; font-family:'Lucida Console', monospace"> {{pep2[j]}} </span>
+                {% set iterate = iterate + 1 %}
+            {% endif %}
+        {% endfor %}
+       <br/>
+        {% for j in range(i*iterate*70, i*iterate*70 + 70) %}
+            {% if pep3[j] != "_" %}
+                {% if pep3[j] == "—" %}
+                    <span style = "background-color:lightblue; word-wrap:break-word; font-family:'Lucida Console', monospace"> {{pep3[j]}} </span>
+                    {% set iterate = iterate + 1 %}
+                {% else %}
+                    <span style = "background-color:rgb({{color3[j][0]}},{{color3[j][1]}},{{color3[j][2]}}); word-wrap:break-word; font-family:'Lucida Console', monospace"> {{pep3[j]}} </span>
+                    {% set iterate = iterate + 1 %}
+                {% endif %}
+            {% else %}
+                <span style = "background-color:white; word-wrap:break-word; font-family:'Lucida Console', monospace"> {{pep3[j]}} </span>
+                {% set iterate = iterate + 1 %}
+            {% endif %}
+        {% endfor %}
+       <br/>
+        <br/>
+    {% endfor %}
+
+
+</body>
+
+
+</html>
